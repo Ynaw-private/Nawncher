@@ -10,8 +10,8 @@ set -euo pipefail
 
 APP_NAME="Nawncher"
 APP_ID="nawncher"
-VERSION="2.0.0"
-RELEASE="1"
+APP_VERSION="2.0.0"
+PKG_RELEASE="1"
 
 REPO="${NAWNCHER_REPO:-Ynaw-private/Nawncher}"
 BRANCH="${NAWNCHER_BRANCH:-main}"
@@ -62,7 +62,7 @@ parse_args() {
             --deps)    DEPS="yes"; shift ;;
             --no-deps) DEPS="no"; shift ;;
             -h|--help) usage; exit 0 ;;
-            --version) printf '%s %s\n' "$APP_NAME" "$VERSION"; exit 0 ;;
+            --version) printf '%s %s\n' "$APP_NAME" "$APP_VERSION"; exit 0 ;;
             *)         die "Opción desconocida: $1 (usa --help)" ;;
         esac
     done
@@ -131,9 +131,9 @@ verify_checksum() {
 
 package_name() {
     case "$DISTRO" in
-        debian) printf 'nawncher_%s_all.deb\n' "$VERSION" ;;
-        fedora) printf 'nawncher-%s-%s.noarch.rpm\n' "$VERSION" "$RELEASE" ;;
-        arch)   printf 'nawncher-%s-%s-any.pkg.tar.zst\n' "$VERSION" "$RELEASE" ;;
+        debian) printf 'nawncher_%s_all.deb\n' "$APP_VERSION" ;;
+        fedora) printf 'nawncher-%s-%s.noarch.rpm\n' "$APP_VERSION" "$PKG_RELEASE" ;;
+        arch)   printf 'nawncher-%s-%s-any.pkg.tar.zst\n' "$APP_VERSION" "$PKG_RELEASE" ;;
         *)      return 1 ;;
     esac
 }
@@ -190,7 +190,7 @@ main() {
     detect_distro
     TMP="$(mktemp -d)"
 
-    log "$APP_NAME $VERSION - $DISTRO_NAME"
+    log "$APP_NAME $APP_VERSION - $DISTRO_NAME"
 
     if [ "$MODE" = "system" ]; then
         prepare_sudo
