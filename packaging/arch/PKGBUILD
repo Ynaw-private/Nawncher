@@ -1,0 +1,53 @@
+# Maintainer: Nawncher <nawncher@localhost>
+pkgname=nawncher
+pkgver=2.0.0
+pkgrel=1
+pkgdesc="Lanzador de juegos para Linux"
+arch=('any')
+url="https://github.com/Ynaw-private/Nawncher"
+license=('custom')
+depends=('python' 'python-gobject' 'gtk3' 'python-cairo')
+optdepends=('ffmpeg: miniaturas de carátulas .webm')
+install=nawncher.install
+source=("$pkgname-$pkgver.tar.gz")
+sha256sums=('SKIP')
+
+package() {
+    local size
+
+    install -Dm644 "$srcdir/$pkgname-$pkgver/src/nawncher.py" \
+        "$pkgdir/usr/lib/nawncher/nawncher.py"
+
+    install -d "$pkgdir/usr/bin"
+    cat > "$pkgdir/usr/bin/nawncher" <<'EOF'
+#!/bin/sh
+exec python3 /usr/lib/nawncher/nawncher.py "$@"
+EOF
+    chmod 755 "$pkgdir/usr/bin/nawncher"
+
+    for size in 512x512 256x256 128x128 64x64 48x48 32x32; do
+        install -Dm644 "$srcdir/$pkgname-$pkgver/data/icons/$size/apps/nawncher.png" \
+            "$pkgdir/usr/share/icons/hicolor/$size/apps/nawncher.png"
+    done
+
+    install -d "$pkgdir/usr/share/applications"
+    cat > "$pkgdir/usr/share/applications/nawncher.desktop" <<'EOF'
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=Nawncher
+GenericName=Lanzador de juegos
+Comment=Lanzador de juegos para Linux
+Exec=/usr/bin/nawncher
+Icon=nawncher
+Terminal=false
+Categories=Game;
+Keywords=games;launcher;juegos;nawncher;
+StartupNotify=true
+StartupWMClass=Nawncher
+EOF
+    chmod 644 "$pkgdir/usr/share/applications/nawncher.desktop"
+
+    install -Dm644 "$srcdir/$pkgname-$pkgver/README.md" \
+        "$pkgdir/usr/share/doc/nawncher/README.md"
+}

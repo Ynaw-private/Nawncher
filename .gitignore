@@ -1,0 +1,8 @@
+build/
+.build-tools/
+__pycache__/
+*.pyc
+
+# Datos personales de la versión portable (no se publican).
+legacy/
+dist/

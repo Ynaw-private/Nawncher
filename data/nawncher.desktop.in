@@ -1,0 +1,13 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=Nawncher
+GenericName=Lanzador de juegos
+Comment=Lanzador de juegos para Linux
+Exec=@EXEC@ %U
+Icon=nawncher
+Terminal=false
+Categories=Game;
+Keywords=games;launcher;juegos;nawncher;
+StartupNotify=true
+StartupWMClass=Nawncher
