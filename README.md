@@ -232,10 +232,10 @@ git push origin main
 ```
 
 Después de publicar, el one-liner funciona con los paquetes de `builds/`.
-Para que el instalador online use una rama distinta:
+Puedes comprobar la integridad de los paquetes descargados con:
 
 ```bash
-NAWNCHER_BRANCH=main curl -fsSL ... | bash
+cd ~/builds && sha256sum -c SHA256SUMS
 ```
 
 ## Desinstalar
